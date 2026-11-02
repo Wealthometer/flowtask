@@ -1,0 +1,32 @@
+{
+  "name": "flowtask-server",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "FlowTask API: accounts, team workspaces, projects, tasks and offline sync.",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.13"
+  },
+  "scripts": {
+    "start": "node --experimental-strip-types --no-warnings src/index.ts",
+    "dev": "node --experimental-strip-types --no-warnings --watch src/index.ts",
+    "migrate": "node --experimental-strip-types --no-warnings src/migrate.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "node --experimental-strip-types --no-warnings --test --test-concurrency=1 test/*.test.ts"
+  },
+  "dependencies": {
+    "@fastify/cors": "^11.4.0",
+    "@fastify/websocket": "^11.3.6",
+    "fastify": "^5.12.8",
+    "pg": "^8.23.1",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.5",
+    "@types/pg": "^8.23.1",
+    "@types/ws": "^8.18.2",
+    "typescript": "^5.9.3",
+    "ws": "^8.22.1"
+  }
+}

@@ -1,0 +1,32 @@
+# The FlowTask API and its database.  docker compose up --build
+# API on http://localhost:4000 (point the app at it with EXPO_PUBLIC_API_URL).
+name: flowtask
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: flowtask
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-flowtask}
+      POSTGRES_DB: flowtask
+    volumes: [pgdata:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U flowtask"]
+      interval: 3s
+      retries: 30
+
+  api:
+    build: ./server
+    ports: ["4000:4000"]
+    environment:
+      DATABASE_URL: postgres://flowtask:${POSTGRES_PASSWORD:-flowtask}@db:5432/flowtask
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:8081}
+      PUSH_ENABLED: ${PUSH_ENABLED:-true}
+      EXPO_ACCESS_TOKEN: ${EXPO_ACCESS_TOKEN:-}
+      TRUST_PROXY: ${TRUST_PROXY:-false}
+    depends_on:
+      db: { condition: service_healthy }
+    restart: unless-stopped
+
+volumes:
+  pgdata:
