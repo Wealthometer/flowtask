@@ -1,0 +1,33 @@
+# Render Blueprint for the FlowTask API. In Render: New > Blueprint, then pick this repo.
+# The database is Supabase (or any PostgreSQL 16); Render asks for DATABASE_URL on first deploy.
+services:
+  - type: web
+    name: flowtask-api
+    runtime: docker
+    rootDir: server
+    dockerfilePath: ./Dockerfile
+    plan: free            # free instances sleep after 15 idle minutes; use "starter" for an always-on API
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      # Supabase: use the *Session pooler* string (port 5432), not the direct db.<ref>.supabase.co host
+      # (IPv6-only) and not the transaction pooler on 6543 (breaks LISTEN, which live updates use).
+      # Append ?sslmode=require&uselibpqcompat=true so node-postgres encrypts the connection.
+      - key: DATABASE_URL
+        sync: false
+      - key: PORT
+        value: "4000"
+      - key: HOST
+        value: 0.0.0.0
+      - key: TRUST_PROXY
+        value: "true"
+      # Supabase's session pooler caps connections per project; keep this small on the free tier.
+      - key: DATABASE_POOL
+        value: "5"
+      # Only needed for the web build; the Android/iOS app doesn't use CORS.
+      - key: CORS_ORIGINS
+        value: http://localhost:8081
+      - key: PUSH_ENABLED
+        value: "true"
+      - key: EXPO_ACCESS_TOKEN
+        sync: false

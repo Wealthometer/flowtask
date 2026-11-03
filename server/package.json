@@ -9,9 +9,9 @@
     "node": ">=22.13"
   },
   "scripts": {
-    "start": "node --experimental-strip-types --no-warnings src/index.ts",
-    "dev": "node --experimental-strip-types --no-warnings --watch src/index.ts",
-    "migrate": "node --experimental-strip-types --no-warnings src/migrate.ts",
+    "start": "node --env-file-if-exists=.env --experimental-strip-types --no-warnings src/index.ts",
+    "dev": "node --env-file-if-exists=.env --experimental-strip-types --no-warnings --watch src/index.ts",
+    "migrate": "node --env-file-if-exists=.env --experimental-strip-types --no-warnings src/migrate.ts",
     "typecheck": "tsc --noEmit",
     "test": "node --experimental-strip-types --no-warnings --test --test-concurrency=1 test/*.test.ts"
   },

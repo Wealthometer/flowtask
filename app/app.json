@@ -7,7 +7,7 @@
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
     "ios": {
-      "bundleIdentifier": "com.flowtask.app",
+      "bundleIdentifier": "com.wealthometer.flowtask",
       "supportsTablet": true,
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
@@ -21,7 +21,7 @@
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
       "predictiveBackGestureEnabled": false,
-      "package": "com.flowtask.app"
+      "package": "com.wealthometer.flowtask"
     },
     "web": {
       "favicon": "./assets/favicon.png",
