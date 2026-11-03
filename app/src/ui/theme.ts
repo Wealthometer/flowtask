@@ -1,4 +1,6 @@
+import { useSyncExternalStore } from "react";
 import { useColorScheme } from "react-native";
+import { storage } from "../data/storage";
 
 /**
  * FlowTask's look: a warm cream page, ink outlines with hard offset shadows, and a saturated colour
@@ -87,8 +89,37 @@ const dark: Palette = {
   danger: "#FF6B6B",
 };
 
+// ── Appearance choice ───────────────────────────────────────────────────────
+// "system" follows the phone's light/dark setting; "light" and "dark" override it. Saved on device.
+
+export type ThemeChoice = "system" | "light" | "dark";
+const THEME_KEY = "flowtask.theme";
+let choice: ThemeChoice = "system";
+const listeners = new Set<() => void>();
+
+void storage.get(THEME_KEY).then((saved) => {
+  if (saved === "light" || saved === "dark") setThemeChoice(saved, false);
+}).catch(() => {});
+
+export function setThemeChoice(next: ThemeChoice, save = true) {
+  choice = next;
+  listeners.forEach((l) => l());
+  if (save) void storage.set(THEME_KEY, next).catch(() => {});
+}
+
+const subscribe = (l: () => void) => {
+  listeners.add(l);
+  return () => listeners.delete(l);
+};
+
+export function useThemeChoice(): ThemeChoice {
+  return useSyncExternalStore(subscribe, () => choice, () => choice);
+}
+
 export function usePalette(): Palette {
-  return useColorScheme() === "dark" ? dark : light;
+  const system = useColorScheme();
+  const picked = useThemeChoice();
+  return (picked === "system" ? system === "dark" : picked === "dark") ? dark : light;
 }
 
 export const font = {

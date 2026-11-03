@@ -62,6 +62,10 @@ export function T({
 /**
  * The signature surface: an ink outline with a hard offset shadow. When pressable it sinks into
  * its shadow on press, like a physical button.
+ *
+ * `stretch` makes the face fill a taller wrapper, for tiles in a row that should share a height.
+ * Only use it where the row sets the height: on Android, Yoga grows a flexGrow face to the whole
+ * available height when the wrapper is content-sized (e.g. centred), which on the web it doesn't.
  */
 export function Chunky({
   children,
@@ -75,6 +79,7 @@ export function Chunky({
   testID,
   accessibilityLabel,
   disabled,
+  stretch,
 }: {
   children: ReactNode;
   fill?: string;
@@ -87,13 +92,14 @@ export function Chunky({
   testID?: string;
   accessibilityLabel?: string;
   disabled?: boolean;
+  stretch?: boolean;
 }) {
   const c = usePalette();
   const face = (pressed: boolean) => (
     <View
       style={[
         {
-          flexGrow: 1,
+          flexGrow: stretch ? 1 : 0,
           backgroundColor: fill ?? c.surface,
           borderColor: c.outline,
           borderWidth: stroke,

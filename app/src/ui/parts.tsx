@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState, type ReactNode } from "react";
-import { Modal, Pressable, ScrollView, Text, View } from "react-native";
+import { KeyboardAvoidingView, Modal, Pressable, ScrollView, Text, View } from "react-native";
 import { router } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Animated, { FadeInDown, FadeOutUp } from "react-native-reanimated";
@@ -47,12 +47,16 @@ export function TopBar({ title, right, onBack = back }: { title?: string; right?
   );
 }
 
-/** Scrollable page with the cream background and safe-area padding. */
+/**
+ * Scrollable page with the cream background and safe-area padding. It shrinks above the keyboard
+ * (on Android too: with edge-to-edge the system no longer resizes the window), so focused fields
+ * and the footer stay visible.
+ */
 export function Page({ children, footer, padTop = true, testID }: { children: ReactNode; footer?: ReactNode; padTop?: boolean; testID?: string }) {
   const c = usePalette();
   const insets = useSafeAreaInsets();
   return (
-    <View style={{ flex: 1, backgroundColor: c.bg }} testID={testID}>
+    <KeyboardAvoidingView behavior="padding" style={{ flex: 1, backgroundColor: c.bg }} testID={testID}>
       <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={{ paddingTop: padTop ? insets.top + space.md : 0, paddingHorizontal: space.xl, paddingBottom: (footer ? 110 : insets.bottom + 40), gap: space.xl }}>
         {children}
       </ScrollView>
@@ -61,7 +65,7 @@ export function Page({ children, footer, padTop = true, testID }: { children: Re
           {footer}
         </View>
       ) : null}
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -73,6 +77,7 @@ export function Sheet({ open, onClose, title, children }: { open: boolean; onClo
   const insets = useSafeAreaInsets();
   return (
     <Modal visible={open} transparent animationType="slide" onRequestClose={onClose}>
+      <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
       <Pressable accessibilityRole="button" style={{ flex: 1, backgroundColor: "rgba(27,21,48,0.45)" }} onPress={onClose} accessibilityLabel="Close" />
       <View style={{ backgroundColor: c.bg, borderTopLeftRadius: radius.xl, borderTopRightRadius: radius.xl, borderWidth: stroke, borderBottomWidth: 0, borderColor: c.outline, paddingTop: space.md, paddingBottom: insets.bottom + space.lg, maxHeight: "85%" }}>
         <View style={{ alignSelf: "center", width: 48, height: 5, borderRadius: 3, backgroundColor: c.muted, opacity: 0.5, marginBottom: space.md }} />
@@ -86,6 +91,7 @@ export function Sheet({ open, onClose, title, children }: { open: boolean; onClo
           {children}
         </ScrollView>
       </View>
+      </KeyboardAvoidingView>
     </Modal>
   );
 }
@@ -305,6 +311,7 @@ export function ProjectTile({ project, ws, tilt = 0, width = 190 }: { project: P
       testID={`project-${project.name}`}
       fill={swatches[project.color]}
       onPress={() => router.push(`/project/${project.id}`)}
+      stretch
       style={[{ transform: [{ rotate: `${tilt}deg` }] }, width === "auto" ? { flex: 1 } : null]}
       innerStyle={{ width: width === "auto" ? undefined : width, padding: space.lg, gap: space.md, minHeight: 168 }}
     >

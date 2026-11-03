@@ -88,7 +88,7 @@ export default function Home() {
         </View>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: space.xl, gap: space.md, paddingVertical: 6 }}>
           {projects.map((p, i) => <ProjectTile key={p.id} project={p} ws={ws} tilt={i % 2 ? 1.2 : -1.2} />)}
-          <Chunky onPress={() => router.push("/project/new")} testID="new-project-tile" innerStyle={{ width: 150, minHeight: 168, alignItems: "center", justifyContent: "center", gap: space.sm, borderStyle: "dashed" }}>
+          <Chunky onPress={() => router.push("/project/new")} testID="new-project-tile" stretch innerStyle={{ width: 150, minHeight: 168, alignItems: "center", justifyContent: "center", gap: space.sm, borderStyle: "dashed" }}>
             <Icon name="plus-circle" size={36} />
             <T variant="bodyBold">New project</T>
           </Chunky>

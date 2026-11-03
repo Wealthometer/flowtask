@@ -5,9 +5,9 @@ import { router } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { changePassword, deleteAccount, logOut, toast, updateProfile, useStore, useWorkspace } from "../../data/store.ts";
 import type { Swatch } from "../../data/types.ts";
-import { Avatar, AvatarStack, Button, Chunky, Field, Icon, T } from "../../ui/kit.tsx";
+import { Avatar, AvatarStack, Button, Chunky, Field, Icon, Segmented, T } from "../../ui/kit.tsx";
 import { Sheet, SwatchPicker } from "../../ui/parts.tsx";
-import { font, onSwatch, radius, space, swatches, usePalette } from "../../ui/theme.ts";
+import { font, onSwatch, radius, setThemeChoice, space, swatches, usePalette, useThemeChoice, type ThemeChoice } from "../../ui/theme.ts";
 
 function confirm(title: string, message: string, action: string, run: () => void) {
   if (Platform.OS === "web") {
@@ -25,6 +25,7 @@ export default function Me() {
   const pending = useStore((s) => s.outbox.filter((m) => !m.sent).length);
   const workspaces = useStore((s) => s.workspaces);
   const ws = useWorkspace();
+  const theme = useThemeChoice();
   const [editing, setEditing] = useState(false);
   const [name, setName] = useState(user?.name ?? "");
   const [color, setColor] = useState<Swatch>(user?.color ?? "tangerine");
@@ -76,6 +77,15 @@ export default function Me() {
           </View>
         </Chunky>
       ) : null}
+
+      <View style={{ gap: space.md }}>
+        <T variant="h3">Appearance</T>
+        <Segmented<ThemeChoice>
+          options={[{ value: "system", label: "System", icon: "theme-light-dark" }, { value: "light", label: "Light", icon: "white-balance-sunny" }, { value: "dark", label: "Dark", icon: "weather-night" }]}
+          value={theme}
+          onChange={(v) => setThemeChoice(v)}
+        />
+      </View>
 
       <View style={{ gap: space.md }}>
         <T variant="h3">Account</T>

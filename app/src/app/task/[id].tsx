@@ -90,7 +90,7 @@ export default function TaskDetail() {
   const insertMention = (m: Member) => setComment((v) => v.replace(/@([\w-]*)$/, `@${m.name.split(" ")[0]} `));
 
   return (
-    <KeyboardAvoidingView style={{ flex: 1, backgroundColor: c.bg }} behavior={Platform.OS === "ios" ? "padding" : undefined}>
+    <KeyboardAvoidingView style={{ flex: 1, backgroundColor: c.bg }} behavior="padding">
       <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={{ paddingTop: insets.top + space.md, paddingHorizontal: space.xl, paddingBottom: 140, gap: space.xl }}>
         <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: space.sm }}>
           <RoundButton icon="arrow-left" label="Back" onPress={back} testID="back" />
@@ -308,7 +308,7 @@ export default function TaskDetail() {
 function Meta({ label, children, fill, onPress, testID }: { label: string; children: React.ReactNode; fill?: string; onPress: () => void; testID?: string }) {
   const c = usePalette();
   return (
-    <Chunky depth={3} r={radius.md} fill={fill} onPress={onPress} testID={testID} accessibilityLabel={label} style={{ flex: 1 }} innerStyle={{ padding: space.md, gap: 6 }}>
+    <Chunky depth={3} r={radius.md} fill={fill} onPress={onPress} testID={testID} accessibilityLabel={label} style={{ flex: 1 }} stretch innerStyle={{ padding: space.md, gap: 6 }}>
       <T variant="label" color={fill ? "#5A5270" : c.muted}>{label}</T>
       <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>{children}</View>
     </Chunky>
