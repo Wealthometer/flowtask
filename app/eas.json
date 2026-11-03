@@ -17,13 +17,13 @@
         "buildType": "apk"
       },
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://flowtask-api.onrender.com"
+        "EXPO_PUBLIC_API_URL": "https://flowtask-api-hke1.onrender.com"
       }
     },
     "production": {
       "autoIncrement": true,
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://flowtask-api.onrender.com"
+        "EXPO_PUBLIC_API_URL": "https://flowtask-api-hke1.onrender.com"
       },
       "android": {
         "buildType": "apk"

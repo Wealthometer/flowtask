@@ -42,13 +42,26 @@
         {
           "color": "#FF7A1A"
         }
+      ],
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#FFF6EA"
+        }
       ]
     ],
     "scheme": "flowtask",
-    "splash": {
-      "image": "./assets/splash-icon.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#FFF6EA"
-    }
+    "extra": {
+      "router": {
+        "asyncRoutes": false
+      },
+      "eas": {
+        "projectId": "0e2234bc-adce-4999-8270-86169aa7434c"
+      }
+    },
+    "owner": "wealthometer"
   }
 }
