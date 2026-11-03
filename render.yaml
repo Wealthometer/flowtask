@@ -6,6 +6,7 @@ services:
     runtime: docker
     rootDir: server
     dockerfilePath: ./Dockerfile
+    dockerContext: .      # relative to rootDir, i.e. server/ (package.json and src/ live there)
     plan: free            # free instances sleep after 15 idle minutes; use "starter" for an always-on API
     healthCheckPath: /health
     autoDeploy: true
